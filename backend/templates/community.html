@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Community Help Requests</h2>
+
+{% for post in posts %}
+  <div style="border:1px solid #ccc; padding:15px; margin-bottom:15px;">
+
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.description }}</p>
+
+    <p><b>Posted by:</b> {{ post.user.username }}</p>
+    <p><b>Phone:</b> {{ post.phone }}</p>
+
+    <a href="{{ post.location_link }}" target="_blank">
+        📍 View Location
+    </a>
+
+    <br><br>
+
+    {# ✅ ACCEPT JOB LOGIC #}
+    {% if request.user == post.user %}
+        <!-- Owner view -->
+        {% if post.is_taken %}
+            <p style="color:green;">
+                🛠 Your request has been accepted by
+                <b>{{ post.helper.username }}</b>
+                
+            </p>
+        {% else %}
+            <p style="color:gray;">This is your post</p>
+        {% endif %}
+
+    {% else %}
+        <!-- Other users view -->
+        {% if not post.is_taken %}
+            <a href="{% url 'accept_job' post.id %}">
+                ✅ Accept Job
+            </a>
+        {% else %}
+            <p style="color:orange;">❌ Already taken</p>
+        {% endif %}
+    {% endif %}
+
+  </div>
+{% empty %}
+  <p>No help requests available</p>
+{% endfor %}
+
+{% endblock %}
