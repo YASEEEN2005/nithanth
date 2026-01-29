@@ -21,9 +21,7 @@ urlpatterns = [
 
 
 
-    path('api/register/', register_api),
-    path('api/login/', login_api),
-    path("post-help/", post_help_api, name="post_help_api"),
+  
 
 
 
