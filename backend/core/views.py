@@ -1,16 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import HelpRequest, Notification, Profile
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.models import User
+from .utils import render_react, serialize_data
 
 def home(request):
-    return render(request, 'home.html')
-
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-
+    return render_react(request)
 
 def register(request):
     if request.method == 'POST':
@@ -20,12 +18,12 @@ def register(request):
         phone = request.POST['phone']   # ✅ phone from form
 
         if password != confirm:
-            return render(request, 'register.html', {
+            return render_react(request, {
                 'error': 'Passwords do not match'
             })
 
         if User.objects.filter(username=username).exists():
-            return render(request, 'register.html', {
+            return render_react(request, {
                 'error': 'Username already exists'
             })
 
@@ -43,7 +41,7 @@ def register(request):
 
         return redirect('/login/')
 
-    return render(request, 'register.html')
+    return render_react(request)
 
 def login_view(request):
     if request.method == 'POST':
@@ -55,11 +53,11 @@ def login_view(request):
             login(request, user)
             return redirect('/community/')
 
-        return render(request, 'login.html', {
+        return render_react(request, {
             'error': 'Invalid username or password'
         })
 
-    return render(request, 'login.html')
+    return render_react(request)
 
 
 def logout_view(request):
@@ -69,13 +67,21 @@ def logout_view(request):
 @login_required
 def community(request):
     posts = HelpRequest.objects.filter(is_taken=False).order_by('-created_at')
-    return render(request, 'community.html', {'posts': posts})
+    # Serialize posts for React
+    posts_data = serialize_data(posts)
+    return render_react(request, {'posts': posts_data})
 
 @login_required
 def post_help(request):
     if request.method == 'POST':
         lat = request.POST.get('latitude')
         lng = request.POST.get('longitude')
+        
+        # Validation for required fields
+        if not lat or not lng:
+             # If validation fails, stay on page with error
+             # Note: React needs to handle 'error' prop if we send it
+             return render_react(request, {'error': 'Location is required. Please allow location access.'})
 
         map_link = f"https://www.google.com/maps?q={lat},{lng}"
 
@@ -84,8 +90,8 @@ def post_help(request):
             title=request.POST['title'],
             description=request.POST['description'],
             phone=request.POST['phone'],
-            latitude=lat,
-            longitude=lng,
+            latitude=float(lat) if lat else 0.0,
+            longitude=float(lng) if lng else 0.0,
             location_link=map_link
         )
 
@@ -93,12 +99,8 @@ def post_help(request):
         return redirect('/community/')
 
     # ✅ GET request – show empty form
-    return render(request, 'post-help.html')
+    return render_react(request)
 
-
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, get_object_or_404
-from .models import HelpRequest, Notification, Profile
 
 @login_required
 def accept_job(request, id):
@@ -142,8 +144,10 @@ def notifications(request):
     notes = Notification.objects.filter(
         to_user=request.user
     ).order_by('-created_at')
-
-    return render(request, 'notifications.html', {'notes': notes})
+    
+    notes_data = serialize_data(notes)
+    
+    return render_react(request, {'notes': notes_data})
 
 @login_required
 def my_profile(request):
@@ -163,16 +167,22 @@ def my_profile(request):
         # ✅ stay logged in, no logout needed
         return redirect('/profile/')
 
-    return render(request, 'profile.html', {
-        'profile': profile
+    # Serialize profile
+    profile_data = serialize_data(profile)
+    # Add user field to profile data as well since Profile model has OneToOne
+    profile_data['username'] = request.user.username
+    
+    return render_react(request, {
+        'profile': profile_data
     })
 
 @login_required
 def my_requests(request):
     posts = HelpRequest.objects.filter(user=request.user).order_by('-id')
-
-    return render(request, 'my-requests.html', {
-        'posts': posts
+    posts_data = serialize_data(posts)
+    
+    return render_react(request, {
+        'posts': posts_data
     })
 
 
@@ -185,12 +195,12 @@ def change_password(request):
         confirm_password = request.POST['confirm_password']
 
         if not request.user.check_password(old_password):
-            return render(request, 'change_password.html', {
+            return render_react(request, {
                 'error': 'Old password is incorrect'
             })
 
         if new_password != confirm_password:
-            return render(request, 'change_password.html', {
+            return render_react(request, {
                 'error': 'Passwords do not match'
             })
 
@@ -202,4 +212,4 @@ def change_password(request):
 
         return redirect('/profile/')
 
-    return render(request, 'change-password.html')
+    return render_react(request)
