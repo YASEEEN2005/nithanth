@@ -11,7 +11,7 @@ const Layout = ({ children, user }) => {
       <nav className="navbar">
         <div className="nav-container">
           <a href="/" className="nav-logo">
-            Neighbour<span style={{ color: 'var(--text-main)' }}>Aid</span>
+            Neighbour<span style={{ color: 'var(--brand-secondary)' }}>Aid</span>
           </a>
 
           <div className="nav-links">
@@ -36,9 +36,23 @@ const Layout = ({ children, user }) => {
                 {/* Profile Section */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingLeft: '15px', borderLeft: '1px solid var(--border-color)' }}>
                   <a href="/profile/" className={`nav-link ${isActive('/profile/')}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600 }}>
-                    <div style={{ width: '35px', height: '35px', borderRadius: '50%', background: 'linear-gradient(135deg, #6366f1, #a855f7)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
+                    <div style={{ 
+                      width: '38px', 
+                      height: '38px', 
+                      borderRadius: '10px', 
+                      background: 'var(--brand-primary)', 
+                      color: 'white', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center', 
+                      fontSize: '1.1rem',
+                      fontWeight: '800',
+                      border: '2px solid white',
+                      boxShadow: '0 2px 6px rgba(47, 128, 237, 0.25)' 
+                    }}>
                       {user.username.charAt(0).toUpperCase()}
                     </div>
+                    <span style={{ color: 'var(--text-primary)', fontSize: '0.95rem' }}>{user.username}</span>
                   </a>
                   
                   {/* Interesting Logout Button */}

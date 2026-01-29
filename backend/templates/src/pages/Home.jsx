@@ -41,11 +41,11 @@ const Home = ({ user }) => {
             lineHeight: 1.1, 
             marginBottom: '1.5rem',
           }}>
-            <span className="gradient-text">Help your neighbours.</span><br />
+            <span style={{ color: 'var(--brand-primary)' }}>Help your neighbours.</span><br />
             Get help when you need it.
           </h1>
 
-          <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', marginBottom: '2.5rem', lineHeight: 1.6 }}>
+          <p style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', marginBottom: '2.5rem', lineHeight: 1.6 }}>
             NeighbourAid connects people nearby for quick help – plumbing, electrical work, driving, emergencies, and more. 
             Building a stronger community, one request at a time.
           </p>
@@ -60,17 +60,15 @@ const Home = ({ user }) => {
           </div>
         </div>
 
-        {/* Right: Image Carousel */}
         <div style={{ flex: 1, position: 'relative', height: '450px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-           {/* Decorative blurred background blob */}
+           {/* Decorative background circle (Solid color instead of gradient) */}
            <div style={{ 
               position: 'absolute', 
               top: '50%', left: '50%', 
               transform: 'translate(-50%, -50%)', 
               width: '80%', height: '80%', 
-              background: 'linear-gradient(135deg, #6366f1 0%, #a855f7 100%)', 
-              filter: 'blur(80px)', 
-              opacity: 0.3, 
+              background: 'var(--accent-soft)',
+              borderRadius: '50%',
               zIndex: 0 
            }} />
 
