@@ -1,17 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* TARGET THEME (MANDATORY) */
-  --background: #f7f9fb;
+  /* TARGET THEME (Earthy Brown) */
+  --background: #fafafa;
   --surface: #ffffff;
-  --text-primary: #1f2933;
-  --text-secondary: #4b5563;
+  --text-primary: #3e2723;
+  --text-secondary: #5d4037;
 
-  --brand-primary: #2f80ed;
-  --brand-secondary: #27ae60;
+  --brand-primary: #5d4037;
+  --brand-secondary: #a64a2e;
+  /* Rust/Copper Accent */
 
-  --accent-soft: #eaf4ff;
-  --accent-warm: #f2f4f7;
+  --accent-soft: #efebe9;
+  --accent-warm: #d7ccc8;
 
   --success: #219653;
   --warning: #f2994a;
@@ -35,7 +36,7 @@
 
 body {
   margin: 0;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   background-color: var(--background);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
@@ -48,8 +49,10 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   color: var(--text-primary);
+  letter-spacing: -0.02em;
+  /* Minimal touch */
 }
 
 a {
@@ -133,7 +136,7 @@ a {
 }
 
 .btn-primary:hover {
-  background-color: #2563eb;
+  background-color: #4e342e;
   /* Slightly darker manually */
   transform: translateY(0);
   /* Remove lift */
@@ -216,7 +219,7 @@ a {
   outline: none;
   border-color: var(--brand-primary);
   /* Highlight focus */
-  box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.15);
+  box-shadow: 0 0 0 3px rgba(93, 64, 55, 0.15);
   /* Soft ring, no aggressive outline */
   background-color: var(--surface);
 }

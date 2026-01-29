@@ -57,8 +57,9 @@ const Layout = ({ children, user }) => {
                   
                   {/* Interesting Logout Button */}
                   <a href="/logout/" style={{ 
-                      background: '#fee2e2', 
-                      color: '#ef4444', 
+                      background: 'white', 
+                      color: 'var(--danger)',
+                      border: '1px solid var(--border)', 
                       width: '35px', 
                       height: '35px', 
                       borderRadius: '50%', 
@@ -70,8 +71,8 @@ const Layout = ({ children, user }) => {
                       textDecoration: 'none'
                     }} 
                     title="Logout"
-                    onMouseEnter={(e) => { e.currentTarget.style.background = '#ef4444'; e.currentTarget.style.color = 'white'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = '#fee2e2'; e.currentTarget.style.color = '#ef4444'; }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--danger)'; e.currentTarget.style.color = 'white'; e.currentTarget.style.borderColor = 'var(--danger)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = 'var(--danger)'; e.currentTarget.style.borderColor = 'var(--border)'; }}
                   >
                     ⏻
                   </a>
